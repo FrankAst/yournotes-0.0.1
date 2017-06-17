@@ -1,0 +1,268 @@
+<!DOCTYPE html 5.0>
+<html>
+<title>Your notes, <%= title %> </title>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/stylesheets/notes.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/navbar.css">
+<script src="/javascripts/jquery-1.11.3.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<!-- <script src="js/navbar.js"></script> -->
+
+</head>
+
+<style type="text/css">
+body{
+background-image: url("/images/g.jpg");
+background-repeat: no-repeat;
+background-attachment: fixed; 
+}
+textarea{
+
+background-color: #FFDEAD;
+font-size: 25;
+
+}
+</style>
+<!-- <script type="text/javascript">
+    $(document).ready(function(){
+
+   $('li div').mouseenter(function(){
+     $(this).addClass('active');
+   });
+
+      $('li div').mouseleave(function(){
+
+     $(this).removeClass('active');
+
+   });
+
+});
+
+</script> -->
+<body>
+
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 25px;">
+    <div class="">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div id="wrap">
+                <form action="" autocomplete="on">
+                    <input id="search" name="search" type="text" placeholder="Заголовок, дата или часть текста">
+                    <input id="search_submit" value="Rechercher" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    <div class="col-md-4">
+
+    <form name="form2" action="/newForm" method="post">
+
+    <textarea name="input_text" placeholder="Создайте новое событие, напоминание или просто заметку..." rows="10" cols="45"></textarea>
+    <input type="submit" name="send" value="Сохранить" />
+    </form>
+
+
+        </div>
+
+ <div class="col-md-6" style="float: right;">
+        <ul class="notes">
+            <li>
+                <div class="rotate-1 lazur-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome title</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li> 
+            <li>
+                <div class="rotate-2 red-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome date</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>    
+            <li>
+                <div class="rotate-2 yellow-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+               <li>
+                <div class="rotate-1 yellow-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li> 
+                 <li>
+                <div class="rotate-1 lazur-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome title</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+            <li>
+                <div class="rotate-2 red-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome date</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>    
+            <li>
+                <div class="rotate-2 yellow-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+               <li>
+                <div class="rotate-1 yellow-bg ">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li> 
+
+        </ul>  
+    </div>
+
+
+    </div>
+
+
+
+<!-- <footer>
+    
+<div class="row" style="background-color: gray; height: 150px;">
+
+
+</div>
+
+
+</footer> -->
+
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<div class="container-fluid">
+
+<div class="container bootstrap snippet">
+    <div class="row">
+    	<ul class="s">
+            <li>
+                <div class="rotate-1 lazur-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome title</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+            <li>
+                <div class="rotate-2 red-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome date</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>    
+            <li>
+                <div class="rotate-1 yellow-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+		</ul>  
+	</div> -->
+	<!-- 
+	    <div class="row">
+    	<ul class="s">
+            <li>
+                <div class="rotate-1 lazur-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome title</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+            <li>
+                <div class="rotate-2 red-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome date</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>    
+            <li>
+                <div class="rotate-1 yellow-bg">
+                    <small>12:03:28 12-04-2014</small>
+                    <h4>Awesome project</h4>
+                    <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <a href="#" class="text-danger pull-right"><i class="fa fa-trash-o "></i></a>
+                </div>
+            </li>   
+		</ul>  
+	</div> -->
+</div>
+
+
+</div>
+
+
+
+</body>
+</html>
