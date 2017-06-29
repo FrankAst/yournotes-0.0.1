@@ -9,7 +9,13 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/navbar.css">
 <script src="/javascripts/jquery-1.11.3.js"></script>
 <script src="/javascripts/bootstrap.min.js"></script>
-<!-- <script src="js/navbar.js"></script> -->
+<script src="/javascripts/angular.js"></script>
+<script src="/javascripts/modules.js"></script>
+
+<!-- <script src="/javascripts/angular-route.js"></script>
+<script src="/javascripts/angular/angular-ui-router.js"></script>
+<script src="/javascripts/angular-resource.js"></script> -->
+<!-- <script src="js/navbar.js"></script>  -->
 
 </head>
 
@@ -42,7 +48,7 @@ font-size: 25;
 });
 
 </script> -->
-<body>
+<body ng-app="myApp">
 
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 25px;">
@@ -56,13 +62,16 @@ font-size: 25;
             </div>
         </div>
     </div>
+    <p>New note: {{data}}</p>
     <div class="row">
 
     <div class="col-md-4">
 
-    <form name="form2" action="/newForm" method="post">
 
-    <textarea name="input_text" placeholder="Создайте новое событие, напоминание или просто заметку..." rows="10" cols="45"></textarea>
+
+
+    <form method="post" ng-submit='create()' ng_controller='newNoteCtrl'>
+    <textarea ng-model="note" placeholder="Создайте новое событие, напоминание или просто заметку..." rows="10" cols="45"></textarea>
     <input type="submit" name="send" value="Сохранить" />
     </form>
 

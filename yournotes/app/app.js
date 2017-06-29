@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var ArticleModel = require('./libs/mongoose').ArticleModel;
+var NoteModel = require('./libs/mongoose').NoteModel;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -36,10 +36,12 @@ app.use('/users', users);
 // app.put();
 // app.delete();
 
-app.get('/articles', function(req, res) {
-    return ArticleModel.find(function (err, articles) {
+app.get('/notes', function(req, res) {
+    return NoteModel.find(function (err, notes) {
         if (!err) {
-            return res.send(articles);
+
+            return res.send(notes);
+
         } else {
             res.statusCode = 500;
             log.error('Internal error(%d): %s',res.statusCode,err.message);
@@ -49,15 +51,19 @@ app.get('/articles', function(req, res) {
 });
 
 app.post('/newForm', function(req, res) {
-    var article = new ArticleModel({
-        text: req.body.input_text
+    var note = new NoteModel({
+        text: req.body.note
     });
 
-   article.save(function (err) {
+   note.save(function (err) {
         if (!err) {
-            console.info("article created");
-            return res.send({ status: 'OK', article:article });
-        } else {
+            console.info("note created");
+             res.statusCode = 200;
+             res.send({'createdNote': note.text});
+            // return
+        } 
+        else 
+        {
             console.log(err);
             if(err.name == 'ValidationError') {
                 res.statusCode = 400;

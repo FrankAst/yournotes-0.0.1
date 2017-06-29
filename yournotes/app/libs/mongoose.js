@@ -11,7 +11,6 @@ db.once('open', function callback () {
     console.log("Connected to DB!");
 });
 
-var Schema = mongoose.Schema;
 
 // Schemas
 // var Images = new Schema({
@@ -23,12 +22,16 @@ var Schema = mongoose.Schema;
 //     url: { type: String, required: true }
 // });
 
-var Article = new Schema({
 
-    text: { type: String, required: true },
+    // text: { type: String, required: true }
+    var noteSchema = new mongoose.Schema({
+    	    text: { type: String}
+    	    // text: String
+    // title: String,
+    // date: {type: Date, default: Date.now}
+
 });
 
 
-var ArticleModel = mongoose.model('Article', Article);
-
-module.exports.ArticleModel = ArticleModel;
+var NoteModel = mongoose.model('Note', noteSchema);
+module.exports.NoteModel = NoteModel;
