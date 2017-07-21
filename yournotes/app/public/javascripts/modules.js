@@ -1,87 +1,61 @@
-var app = angular.module('myApp',[]);
-app.controller('newNoteCtrl', function($scope, $http){
+var app = angular.module('myApp', []);
 
 
-// входной вызов к webapi (сервис, реализованный при помощи node)
+
+
+app.controller('mainCtrl', function($scope, $http){
+
+$scope.remove = function(currentID){
+ 
+
+ $http.delete('/notes', {params: {'id': currentID}}).then(
+  function successCallback(response){
+
+    $scope.notes = $scope.notes.filter(function(note){
+      return note._id !== currentID;    
+    });
+
+  }, function errorCallback(response){
+    console.log('did not removed');
+  });
+
+    
+
+};
+
+
+
+});
+
+app.controller('saveCtrl', function($scope, $http, $filter){
+
+
 $scope.create = function(){
 
-console.log('Button pushed!!');
-console.log($scope.note);
+
+var date = new Date();
+
+
 
      $http({
         method: 'post',
-        url: '/newForm',
-        data: {'note': $scope.note}
-
+        url: '/notes',
+        data: { 'content': $scope.textarea, 'title': "Here must be a title", 'date': $filter('date')(date, 'HH:mm | dd.MM.yyyy')}
      }).then(function successCallback(response) {
-    	$scope.data = response.data.createdNote;	
+
+
+            $scope.notes.push(response.data);
+            $scope.textarea = "";
+
 
   }, function errorCallback(response) {
      	console.log(response.statusText);
 
   });
 };
+
+
+
+
+
     });
-
-
-
-
-// var main = angular.module("main").run(function($http,$rootScope){
-//     // if(sessionStorage.length > 0){
-//     //     $rootScope.current_user = sessionStorage.current_user;
-//     //     $rootScope.authenticated = true;
-//     // }else{
-//     //     $rootScope.authenticated = false;
-//     //     $rootScope.current_user = 'Guest';
-//     // }
-    
-//     // $rootScope.signout = function(){
-//     //     $http.get('auth/signout');
-//     //     $rootScope.authenticated = false;
-//     //     $rootScope.current_user = 'Guest';
-//     //     sessionStorage.clear();
-//     // };
-
-// });                                                                                                     
-// // Конфигурация маршрутизации (определяем маршруты)
-// main.config([
-//     '$stateProvider', '$urlRouterProvider', '$httpProvider',
-//     function ($stateProvider, $urlRouterProvider,$rootScope) {
-//         $urlRouterProvider.otherwise('/');
-//         $stateProvider
-//             .state('home', {
-//                 url: '/',
-//                 templateUrl: 'Index.html',
-//                 caseInsensitiveMatch: true,
-//                 controller: 'MainController'
-//             })
-//             .state('contact', {
-//                 url: '/contact',
-//                 templateUrl: 'Contact.html',
-//                 caseInsensitiveMatch: true,
-//                 controller: 'MainController'
-//             })
-//             .state('about', {
-//                 url: '/about',
-//                 templateUrl: 'About.html',
-//                 caseInsensitiveMatch: true,
-//                 controller: 'MainController'
-//             })
-//             .state('login',{
-//                 url: '/login',
-//                 templateUrl: 'login.html',
-//                 caseInsensitiveMatch: true,
-//                 controller: 'AuthController'
-//             })
-//             .state('register',{
-//                 url: '/register',
-//                 templateUrl: 'register.html',
-//                 caseInsensitiveMatch: true,
-//                 controller: 'AuthController'
-//             }).state('unauth',{
-//                 url: '/unauth',
-//                 templateUrl: 'unauth.html',
-//                 caseInsensitiveMatch: true
-//             });
-//     }
-// ]);   

@@ -1,37 +1,29 @@
-var mongoose = require('mongoose');
-//var log         = require('./log')(module);
 
-mongoose.connect('mongodb://localhost/test1');
+// this is the local server and mongoose
+
+var mongoose = require('mongoose');
+// var log         = require('./log')(module);
+
+mongoose.connect("mongodb://localhost/test1");
+
 var db = mongoose.connection;
 
-// db.on('error', function (err) {
-//     log.error('connection error:', err.message);
-// });
+db.on('error', function (err) {
+    console.log('connection error:', err.message);
+});
+
 db.once('open', function callback () {
     console.log("Connected to DB!");
 });
 
 
-// Schemas
-// var Images = new Schema({
-//     kind: {
-//         type: String,
-//         enum: ['thumbnail', 'detail'],
-//         required: true
-//     },
-//     url: { type: String, required: true }
-// });
-
-
-    // text: { type: String, required: true }
     var noteSchema = new mongoose.Schema({
-    	    text: { type: String}
-    	    // text: String
-    // title: String,
-    // date: {type: Date, default: Date.now}
-
+    		// id: {type: var}
+    		title: {type: String},
+    		date: {type: String},
+    	    content: { type: String}
 });
 
 
-var NoteModel = mongoose.model('Note', noteSchema);
+var NoteModel = mongoose.model('note', noteSchema);
 module.exports.NoteModel = NoteModel;
