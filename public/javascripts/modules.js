@@ -1,8 +1,5 @@
 var app = angular.module('myApp', []);
 
-
-
-
 app.controller('mainCtrl', function($scope, $http){
 
 $scope.remove = function(currentID){
