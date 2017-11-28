@@ -1,19 +1,67 @@
 {
-  "name": "app",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "ejs": "~2.5.6",
-    "express": "~4.15.2",
-    "jade": "^1.11.0",
-    "mongoose": "^4.10.6",
-    "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
-  }
+	"name": "qpost",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "https://frankast@bitbucket.org/frankast/qpost.git",
+	"author": "frankast <borodaev97@gmail.com>",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"babel-runtime": "^6.26.0",
+		"bcrypt-nodejs": "^0.0.3",
+		"body-parser": "^1.18.2",
+		"cookie-parser": "^1.4.3",
+		"ejs": "^2.5.7",
+		"express": "^4.16.2",
+		"express-session": "^1.15.6",
+		"mongoose": "^4.13.0",
+		"nodemailer": "^4.4.0",
+		"passport": "^0.4.0",
+		"passport-facebook": "^2.1.1",
+		"passport-local": "^1.0.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-eslint": "^8.0.1",
+		"babel-jest": "^21.2.0",
+		"babel-plugin-transform-flow-strip-types": "^6.22.0",
+		"babel-plugin-transform-object-rest-spread": "^6.13.0",
+		"babel-plugin-transform-runtime": "^6.23.0",
+		"babel-preset-env": "^1.6.1",
+		"cz-conventional-changelog": "^2.1.0",
+		"eslint": "^4.10.0",
+		"eslint-config-airbnb-base": "^12.1.0",
+		"eslint-config-prettier": "^2.6.0",
+		"eslint-plugin-flowtype": "^2.39.1",
+		"eslint-plugin-import": "^2.8.0",
+		"eslint-plugin-prettier": "^2.3.1",
+		"flow-bin": "^0.57.3",
+		"jest": "^21.2.1",
+		"node-fetch": "^1.7.3",
+		"prettier": "^1.7.4",
+		"rimraf": "^2.6.2",
+		"semantic-release": "^8.2.0"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"jest": {
+		"roots": [
+			"<rootDir>/src"
+		]
+	},
+	"scripts": {
+		"start": "nodemon ./src/index.js --exec babel-node",
+		"build": "npm run build-cjs && npm run build-flow",
+		"build-cjs": "rimraf lib && babel src --ignore __tests__,__mocks__,__fixtures__ -d lib",
+		"build-flow": "find ./src -name '*.js' -not -path '*/__*' | while read filepath; do cp $filepath `echo $filepath | sed 's/\\/src\\//\\/lib\\//g'`.flow; done",
+		"watch": "jest --watch",
+		"coverage": "jest --coverage --maxWorkers 2",
+		"lint": "eslint --ext .js ./src",
+		"flow": "./node_modules/.bin/flow",
+		"test": "npm run coverage && npm run lint && npm run flow",
+		"semantic-release": "semantic-release pre && npm publish && semantic-release post"
+	}
 }

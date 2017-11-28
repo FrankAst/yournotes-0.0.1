@@ -1,0 +1,31 @@
+body html {
+	height: 100%;
+}
+
+.container-fluid {
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	height: 100%;
+	background-image: url("/images/g.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+}
+
+a {
+  	color: #00B7FF;
+}
+
+textarea {
+	background-color: #FFDEAD;
+	font-size: 25;
+	outline-color: #000000;
+	outline-width: thick;
+	margin-bottom: 4px;
+}
+
+button {
+	margin-left: 25px;
+	width: 497px;
+	margin-top: 4px;
+}
