@@ -16,7 +16,8 @@ a {
   	color: #00B7FF;
 }
 
-textarea {
+.mainTextAreas {
+	padding-left: 7px;
 	background-color: #FFDEAD;
 	font-size: 25;
 	outline-color: #000000;
@@ -24,8 +25,12 @@ textarea {
 	margin-bottom: 4px;
 }
 
-button {
+.btns {
 	margin-left: 25px;
 	width: 497px;
 	margin-top: 4px;
+}
+
+#nav {
+	float: right;
 }

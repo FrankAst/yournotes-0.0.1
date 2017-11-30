@@ -44,6 +44,7 @@
 }
 
 #search_submit{
+  outline: none;
   height: 67px;
   width: 63px;
   display: inline-block;
