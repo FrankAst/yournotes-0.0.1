@@ -19,14 +19,7 @@
 	<script src="/javascripts/modules.js"></script>
 </head>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#picker').hide();
-	});
-</script>
-
 <body ng-app='myApp' ng-controller='mainCtrl' ng-init='notes=<%=JSON.stringify(notes)%>'>
-
 	<div modal="showLoginForm">
 		<% include ./loginForm.ejs %>
 	</div>
@@ -35,32 +28,50 @@
 	</div>
 
 	<div class="container-fluid">
-		<div id="nav">
-			<button ng-click="openLoginModal()">Sign up</button><button ng-click="openContactModal()">Contact us</button>
-			<button ng-click="sortAsc()">Earliest</button><button ng-click="sortDesc()">Latest</button>
-		</div>
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			<div id="wrap">
-				<form action="" autocomplete="on">
-					<input ng-model='search' id="search" name="search" type="text" placeholder="Заголовок, дата или часть текста" autofocus>
-					<input id="search_submit" value="Rechercher">
-				</form>
+		<div class="row">
+			<div id="nav">
+				<button ng-click="openLoginModal()">Sign up</button><button ng-click="openContactModal()">Contact us</button>
+				<button ng-click="sortAsc()">Earliest</button><button ng-click="sortDesc()">Latest</button>
+			</div>
+			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+				<div id="wrap">
+					<form action="" autocomplete="on">
+						<input ng-model='search' id="search" name="search" type="text" placeholder="Заголовок, дата или часть текста" autofocus>
+						<input id="search_submit" value="Rechercher">
+					</form>
+				</div>
 			</div>
 		</div>
-		<div class="row" style="margin-bottom: 25px;">
-
-		</div>
+		<div class="row" style="margin-bottom: 25px;"></div>
 
 		<div class="row">
-			<div class="col-md-4">
+
+			<button ng-click="showForm()" type="button" class="btn btn-add" style="outline: none;">+</button>
+
+			<div class="col-md-4 form" ng-show="isFormShow">
 				<form method="post" ng-submit='create()'>
-					<textarea class="mainTextAreas" ng-model="title" placeholder="Заголовок" rows="1" cols="30" style="margin-left: 25px;"></textarea>
-					<textarea class="mainTextAreas" ng-model="content" placeholder="Текст" rows="9" cols="30" style="margin-left: 25px;"></textarea>
+					<textarea class="mainTextAreas" ng-model="title" placeholder="Заголовок" rows="1" cols="30"></textarea>
+					<textarea class="mainTextAreas" ng-model="content" placeholder="Текст" rows="9" cols="30"></textarea>
 					<input ng-model="color" name="color" type="hidden" class="hid" value="#23c6c8">
-					<button type="button" class="btn btn-primary btns" onclick="$('#picker').fadeToggle(400);">Цвет</button>
+					<button ng-click="showPicker()" type="button" class="btn btn-primary btns">Цвет</button>
 					<button type="submit" class="btn btn-primary btns" name="save">Сохранить</button>
 				</form>
 			</div>
+
+			<div ng-show="isPickerShow" id="picker" class="color_picker_dialog" draggable="false">
+				<div class="hue_bar">
+					<div class="hue_picker"></div>
+				</div>
+				<div class="sat_rect" draggable="false">
+					<div class="white"></div>
+					<div class="black"></div>
+					<div class="sat_picker"></div>
+				</div>
+				<div class="bottom">
+					<div class="color_preview"></div>
+				</div>
+			</div>
+
 			<ul class="notes">
 				<li ng-repeat='note in notes | filter : search | orderBy : "date" : toggle'>
 					<div class="rotate-1" style="background-color:{{note.color}}">
@@ -73,19 +84,6 @@
 			</ul>
 		</div>
 
-		<div id="picker" class="color_picker_dialog" draggable="false">
-			<div class="hue_bar">
-				<div class="hue_picker"></div>
-			</div>
-			<div class="sat_rect" draggable="false">
-				<div class="white"></div>
-				<div class="black"></div>
-				<div class="sat_picker"></div>
-			</div>
-			<div class="bottom">
-				<div class="color_preview"></div>
-			</div>
-		</div>
 	</div>
 </body>
 <script src="/javascripts/picker.js"></script>

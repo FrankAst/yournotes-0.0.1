@@ -95,14 +95,7 @@ export default (app, passport) => {
   });
 
   app.post('/notes', (req, res) => {
-    let { title, content } = req.body;
-    const { color, date } = req.body;
-    if (title === '') {
-      title = 'Empty title';
-    }
-    if (content === '') {
-      content = 'Empty content';
-    }
+    const { title, content, color, date } = req.body;
     const note = new Note({
       title,
       date,

@@ -1,6 +1,6 @@
 ul.notes li {
-  margin: 10px 40px -150px 0px;
-  float: right;
+  margin: 10px 40px 25px 0px;
+  float: left;
 }
 
 ul.notes li, ul.tag-list li {

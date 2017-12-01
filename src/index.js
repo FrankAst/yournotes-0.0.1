@@ -21,15 +21,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 routes(app, passport);
 
-// app.use((req, res, next) => {
-//   const err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-//
-// app.use((err, req, res) => {
-//   res.send('eeeerrrorrrrr');
-// });
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+app.use((err, req, res) => {
+  res.send('eeeerrrorrrrr');
+});
 
 app.listen(PORT, () => {
   console.log(`App works on ${PORT}...`);  //eslint-disable-line

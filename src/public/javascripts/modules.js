@@ -2,6 +2,16 @@ const app = angular.module('myApp', ['ui.bootstrap.modal']); //eslint-disable-li
 
 app.controller('mainCtrl', ($scope, $http, $filter) => {
   $scope.toggle = true;
+  $scope.isFormShow = false;
+  $scope.isPickerShow = false;
+  $scope.showForm = () => {
+    if ($scope.isPickerShow === true) $scope.isPickerShow = false;
+    $scope.isFormShow = !$scope.isFormShow;
+  };
+
+  $scope.showPicker = () => {
+    $scope.isPickerShow = !$scope.isPickerShow;
+  };
 
   $scope.sortDesc = () => {
     $scope.toggle = true;
@@ -43,13 +53,16 @@ app.controller('mainCtrl', ($scope, $http, $filter) => {
   $scope.create = () => {
     const date = new Date();
     let col = document.getElementsByName('color')[0].value; //eslint-disable-line
+    let { content, title } = $scope;
+    if (content === '') content = 'Empty content';
+    if (title === '') title = 'Empty title';
     $http({
       method: 'POST',
       url: '/notes',
       data: {
-        content: $scope.content,
+        content,
         color: col,
-        title: $scope.title,
+        title,
         date: $filter('date')(date, 'HH:mm | dd.MM.yyyy'),
       },
     }).then(
