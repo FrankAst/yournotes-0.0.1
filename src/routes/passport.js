@@ -138,7 +138,6 @@ export default (passport: Object) => {
             }
             // if there is no user, create them
             const newUser = new User();
-
             newUser.facebook.id = profile.id;
             newUser.facebook.token = token;
             newUser.facebook.name = `${profile.name.givenName} ${profile.name.familyName}`;

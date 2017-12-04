@@ -136,32 +136,25 @@ export default (app, passport) => {
     })(req, res, next);
   });
 
-  // app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
-  //
-  // app.get(
-  //   '/auth/facebook/callback',
-  //   passport.authenticate('facebook', {
-  //     successRedirect: '/profile',
-  //     failureRedirect: '/',
-  //   })
-  // );
-  //
-  // app.get('/connect/facebook', passport.authorize('facebook', { scope: 'email' }));
-  //
-  // app.get(
-  //   '/connect/facebook/callback',
-  //   passport.authorize('facebook', {
-  //     successRedirect: '/profile',
-  //     failureRedirect: '/',
-  //   })
-  // );
-  //
-  // app.get('/unlink/facebook', isLoggedIn, (req, res) => {
-  //   const user = req.user;
-  //   user.facebook.token = undefined;
-  //   user.save(err => {
-  //     console.log(err);
-  //     res.redirect('/profile');
-  //   });
-  // });
+  app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+  app.get('/auth/facebook/callback', (req, res, next) => {
+    console.log('inside fb====================================>>>>>');
+    passport.authenticate('facebook', (err, user) => { //eslint-disable-line
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.send('Invalid login or password! Try again.');
+      }
+      req.login(user, error => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        console.log(user.name);
+        res.redirect('/');
+      });
+    })(req, res, next);
+  });
 };

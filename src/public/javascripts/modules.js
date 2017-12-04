@@ -1,12 +1,26 @@
-const app = angular.module('myApp', ['ui.bootstrap.modal']); //eslint-disable-line
+const app = angular.module('myApp', ['ui.bootstrap.modal', 'angularUtils.directives.dirPagination']); //eslint-disable-line
 
-const insertHtml = (element, html, $scope, $compile) => {
-  const compiledElement = $compile(html)($scope);
-  element.empty();
-  element.append(compiledElement);
-};
+// const insertHtml = (element, html, $scope, $compile) => {
+//   const compiledElement = $compile(html)($scope);
+//   element.empty();
+//   element.append(compiledElement);
+// };
 
-app.controller('mainCtrl', ($scope, $http, $filter, $compile) => {
+app.controller('mainCtrl', ($scope, $http, $filter) => {
+  // console.log($scope.isLogged);
+  // if ($scope.isLogged === false) {
+  //   const pageElement = angular.element(document.getElementById('nav')); //eslint-disable-line
+  //   const html = `<button ng-click="openLoginModal()">Log in</button>`;
+  //   insertHtml(pageElement, html, $scope, $compile);
+  // } else {
+  //   const pageElement = angular.element(document.getElementById('nav')); //eslint-disable-line
+  //   const html = `
+  //                <button ng-click="openContactModal()">Contact us</button>
+  //                <button ng-click="sortAsc()">Earliest</button>
+  //                <button ng-click="sortDesc()">Latest</button>
+  //                <button ng-click="logout()">Log out</button>`;
+  //   insertHtml(pageElement, html, $scope, $compile);
+  // }
   $scope.toggle = true;
   $scope.isFormShow = false;
   $scope.isPickerShow = false;
@@ -53,23 +67,44 @@ app.controller('mainCtrl', ($scope, $http, $filter, $compile) => {
       },
     }).then(
       response => {
-        const pageElement = angular.element(document.getElementById('nav')); //eslint-disable-line
-        const html = `
-        <h3>Привет, ${response.data.local.name}</h3>
-        <button ng-click="openContactModal()">Contact us</button>
-                         <button ng-click="sortAsc()">Earliest</button>
-                         <button ng-click="sortDesc()">Latest</button>
-                         <button ng-click="logout()">Log out</button>`;
-        insertHtml(pageElement, html, $scope, $compile);
-        console.dir(response);
+        console.log(response); //eslint-disable-line
+        location.reload(); //eslint-disable-line
       },
-      response => {//eslint-disable-line
-        // console.log(response.statusText);//eslint-disable-line
+      response => {
+        console.log(response.statusText); //eslint-disable-line
       }
     );
   };
 
-  $scope.fblogin = () => {};
+  $scope.logout = () => {
+    $http({
+      method: 'GET',
+      url: '/logout',
+    }).then(
+      response => {
+        location.reload(); //eslint-disable-line
+        console.log(response); //eslint-disable-line
+      },
+      response => {
+        console.log(response.statusText); //eslint-disable-line
+      }
+    );
+  };
+
+  $scope.fblogin = () => {
+    $http({
+      method: 'GET',
+      url: '/auth/facebook',
+    }).then(
+      response => {
+        // location.reload(); //eslint-disable-line
+        console.dir(response); //eslint-disable-line
+      },
+      response => {
+        console.log(response.statusText); //eslint-disable-line
+      }
+    );
+  };
 
   $scope.signup = () => {
     $http({
