@@ -12,7 +12,8 @@ export default (passport: Object) => {
 
   passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
-      done(err, user);
+      if (err) done(err);
+      done(null, user);
     });
   });
 

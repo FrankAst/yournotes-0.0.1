@@ -13,6 +13,7 @@ export default (app, passport) => {
       secret: 'secret',
       resave: true,
       saveUninitialized: true,
+      cookies: { maxAge: 36000000 },
     })
   );
   app.use(passport.initialize());
@@ -21,8 +22,84 @@ export default (app, passport) => {
 
   const isLoggedIn = (req, res, next) => { //eslint-disable-line
     if (req.isAuthenticated()) return next();
-    return res.send('Login firstly, please!');
+    res.status(403).send('Login firstly, please!');
   };
+
+  app.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+      return Note.find({ userId: req.user._id }, (err, notes) => {
+        if (!err) {
+          return res.render('mainView', { title: req.user.name, notes });
+        }
+        res.statusCode = 500;
+        return res.send({ error: 'Server error' });
+      });
+    }
+    const notes = [
+      {
+        title: 'Title example',
+        content: 'For create your own notes, login firstly, please.',
+        date: '00:00 | 21.12.2012',
+        color: '#246703',
+      },
+      {
+        title: 'Awesome note',
+        content: 'For create your own notes, login firstly, please.',
+        date: '00:00 | 21.12.2012',
+        color: '#ffd700',
+      },
+    ];
+    return res.render('mainView', { title: 'Great person!', notes });
+  });
+
+  app.post('/notes', isLoggedIn, (req, res) => {
+    const { title, content, color, date } = req.body;
+    const note = new Note({
+      userId: req.user._id,
+      title,
+      date,
+      content,
+      color,
+    });
+    note.save(err => {
+      if (!err) {
+        console.info('note created successfully!'); //eslint-disable-line
+        res.statusCode = 200;
+        res.send(note);
+      } else {
+        console.log(err); //eslint-disable-line
+        if (err.name === 'ValidationError') {
+          res.statusCode = 400;
+          res.send({ error: 'Validation error' });
+        } else {
+          res.statusCode = 500;
+          res.send({ error: 'Server error' });
+        }
+        console.error('Internal error(%d): %s', res.statusCode, err.message); //eslint-disable-line
+      }
+    });
+  });
+
+  app.delete('/notes', (req, res) => {
+    return Note.findByIdAndRemove({ _id: req.query.id }, err => { //eslint-disable-line
+      if (!err) {
+        res.statusCode = 200;
+        res.statusText = 'OK';
+        res.end();
+        console.log('remove successfully'); //eslint-disable-line
+      } else {
+        res.statusCode = 500;
+        return res.send(err, { error: 'Server error' });
+      }
+    });
+  });
+
+  app.post('/mail', (req, res) => {
+    const { email, message, name } = req.body;
+    mail(email, message, name);
+    console.log('inside mail controller');
+    res.send('ok');
+  });
 
   app.get('/logout', (req, res) => {
     req.logout();
@@ -37,7 +114,13 @@ export default (app, passport) => {
       if (!user) {
         return res.send('Invalid login or password! Try again.');
       }
-      return res.send(user);
+      req.login(user, error => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        res.send(user);
+      });
     })(req, res, next);
   });
 
@@ -81,65 +164,4 @@ export default (app, passport) => {
   //     res.redirect('/profile');
   //   });
   // });
-
-  app.get('/', (req, res) => {
-    return Note.find((err, notes) => { //eslint-disable-line
-      if (!err) {
-        res.render('mainView', { title: 'Valeriy', notes });
-      } else {
-        res.statusCode = 500;
-        console.err('Internal error(%d): %s', res.statusCode, err.message); //eslint-disable-line
-        return res.send({ error: 'Server error' });
-      }
-    });
-  });
-
-  app.post('/notes', (req, res) => {
-    const { title, content, color, date } = req.body;
-    const note = new Note({
-      title,
-      date,
-      content,
-      color,
-    });
-    note.save(err => {
-      if (!err) {
-        console.info('note created successfully!'); //eslint-disable-line
-        res.statusCode = 200;
-        res.send(note);
-      } else {
-        console.log(err); //eslint-disable-line
-        if (err.name === 'ValidationError') {
-          res.statusCode = 400;
-          res.send({ error: 'Validation error' });
-        } else {
-          res.statusCode = 500;
-          res.send({ error: 'Server error' });
-        }
-        console.error('Internal error(%d): %s', res.statusCode, err.message); //eslint-disable-line
-      }
-    });
-  });
-
-  app.delete('/notes', (req, res) => {
-    return Note.findByIdAndRemove({ _id: req.query.id }, err => { //eslint-disable-line
-      if (!err) {
-        res.statusCode = 200;
-        res.statusText = 'OK';
-        res.end();
-        console.log('remove successfully'); //eslint-disable-line
-      } else {
-        res.statusCode = 500;
-        console.err('Internal error(%d): %s', res.statusCode, err.message); //eslint-disable-line
-        return res.send({ error: 'Server error' });
-      }
-    });
-  });
-
-  app.post('/mail', (req, res) => {
-    const { email, message, name } = req.body;
-    mail(email, message, name);
-    console.log('inside mail controller');
-    res.send('ok');
-  });
 };

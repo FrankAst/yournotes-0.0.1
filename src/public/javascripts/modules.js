@@ -1,6 +1,12 @@
 const app = angular.module('myApp', ['ui.bootstrap.modal']); //eslint-disable-line
 
-app.controller('mainCtrl', ($scope, $http, $filter) => {
+const insertHtml = (element, html, $scope, $compile) => {
+  const compiledElement = $compile(html)($scope);
+  element.empty();
+  element.append(compiledElement);
+};
+
+app.controller('mainCtrl', ($scope, $http, $filter, $compile) => {
   $scope.toggle = true;
   $scope.isFormShow = false;
   $scope.isPickerShow = false;
@@ -35,6 +41,53 @@ app.controller('mainCtrl', ($scope, $http, $filter) => {
 
   $scope.closeContactForm = () => {
     $scope.showContactForm = false;
+  };
+
+  $scope.login = () => {
+    $http({
+      method: 'POST',
+      url: '/login',
+      data: {
+        email: $scope.email,
+        password: $scope.password,
+      },
+    }).then(
+      response => {
+        const pageElement = angular.element(document.getElementById('nav')); //eslint-disable-line
+        const html = `
+        <h3>Привет, ${response.data.local.name}</h3>
+        <button ng-click="openContactModal()">Contact us</button>
+                         <button ng-click="sortAsc()">Earliest</button>
+                         <button ng-click="sortDesc()">Latest</button>
+                         <button ng-click="logout()">Log out</button>`;
+        insertHtml(pageElement, html, $scope, $compile);
+        console.dir(response);
+      },
+      response => {//eslint-disable-line
+        // console.log(response.statusText);//eslint-disable-line
+      }
+    );
+  };
+
+  $scope.fblogin = () => {};
+
+  $scope.signup = () => {
+    $http({
+      method: 'POST',
+      url: '/signup',
+      data: {
+        email: $scope.email_reg,
+        password: $scope.password_reg,
+        name: $scope.name_reg,
+      },
+    }).then(
+      response => {
+         console.log(response.data); //eslint-disable-line
+      },
+      response => {
+        console.log(response.statusText);//eslint-disable-line
+      }
+    );
   };
 
   $scope.remove = currentID => {
@@ -73,13 +126,11 @@ app.controller('mainCtrl', ($scope, $http, $filter) => {
         col = null;
       },
       response => {
-        console.log(response.statusText);//eslint-disable-line
+        console.log(response.data);
       }
     );
   };
-});
 
-app.controller('contactUsCtrl', ($scope, $http) => {
   $scope.sendMail = () => {
     $http({
       method: 'POST',
@@ -92,49 +143,6 @@ app.controller('contactUsCtrl', ($scope, $http) => {
     }).then(
       response => { //eslint-disable-line
         console.log('alallaalal send mail');
-      },
-      response => {
-        console.log(response.statusText);//eslint-disable-line
-      }
-    );
-  };
-});
-
-app.controller('loginCtrl', ($scope, $http) => {
-  $scope.login = () => {
-    $http({
-      method: 'POST',
-      url: '/login',
-      data: {
-        email: $scope.email,
-        password: $scope.password,
-      },
-    }).then(
-      response => {
-        const userState = angular.element(document.querySelector('#nav')); //eslint-disable-line
-        userState.html(`<h3>${response.data.local.name}</h3>`);
-         console.log(response.data.local.email); //eslint-disable-line
-      },
-      response => {
-        console.log(response.statusText);//eslint-disable-line
-      }
-    );
-  };
-
-  $scope.fblogin = () => {};
-
-  $scope.signup = () => {
-    $http({
-      method: 'POST',
-      url: '/signup',
-      data: {
-        email: $scope.email_reg,
-        password: $scope.password_reg,
-        name: $scope.name_reg,
-      },
-    }).then(
-      response => {
-         console.log(response.data); //eslint-disable-line
       },
       response => {
         console.log(response.statusText);//eslint-disable-line
